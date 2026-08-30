@@ -62,5 +62,15 @@ python 4_compute_scores.py
 ```
 Projects each firm-quarter embedding onto the four semantic axes via cosine similarity and saves the results to `outputs/axis_scores_all.csv`.
 
+**Step 5: Visualization**
+```bash
+python 5_visualize.py
+```
+Generates visualizations of firms' positions and movements in the strategy space, including:
+
+- Strategy movement maps: UMAP-based arrows showing changes in firm positions between quarters, with arrow thickness proportional to movement distance.
+- Sector spectrum plots: distributions of firms along each bipolar strategic axis, grouped by GICS sector.
+- Interactive visualizations: Plotly HTML versions with firm-level hover information.
+
 ---
 
