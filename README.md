@@ -70,7 +70,6 @@ Generates visualizations of firms' positions and movements in the strategy space
 
 - Strategy movement maps: UMAP-based arrows showing changes in firm positions between quarters, with arrow thickness proportional to movement distance.
 - Sector spectrum plots: distributions of firms along each bipolar strategic axis, grouped by GICS sector.
-- Interactive visualizations: Plotly HTML versions with firm-level hover information.
 
 ---
 
