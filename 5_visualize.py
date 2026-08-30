@@ -1,5 +1,4 @@
 """Arrow, scatter, and spectrum visualizations for strategy-space."""
-
 import argparse
 import json
 from pathlib import Path
@@ -63,6 +62,15 @@ MAJOR = {
 
 plt.rcParams["font.family"] = "DejaVu Sans"
 plt.rcParams["axes.unicode_minus"] = False
+
+
+def save_plotly_png(fig, path, width=1600, height=1000, scale=2):
+    try:
+        fig.write_image(path, width=width, height=height, scale=scale)
+    except ValueError as e:
+        raise RuntimeError(
+            "Plotly PNG export requires kaleido. Install it with: pip install kaleido"
+        ) from e
 
 
 def load_sp500():
@@ -263,7 +271,7 @@ def plot_arrows(df, out):
         })
     ax.set(xlim=(x0, x1), ylim=(y0, y1), xticks=[], yticks=[])
     ax.axis("off")
-    fig.savefig(out / f"arrow_{YEAR}_Q{Q_START}_Q{Q_END}.pdf", dpi=300, bbox_inches="tight")
+    fig.savefig(out / f"arrow_{YEAR}_Q{Q_START}_Q{Q_END}_matplotlib.png", dpi=300, bbox_inches="tight")
     plt.close(fig)
 
     fig = go.Figure()
@@ -296,7 +304,7 @@ def plot_arrows(df, out):
     fig.update_layout(margin=dict(l=0, r=0, t=0, b=0), paper_bgcolor="white", plot_bgcolor="white")
     fig.update_xaxes(visible=False, range=[x0, x1])
     fig.update_yaxes(visible=False, range=[y0, y1], scaleanchor="x", scaleratio=1)
-    fig.write_html(out / f"arrow_{YEAR}_Q{Q_START}_Q{Q_END}.html", include_plotlyjs="cdn")
+    save_plotly_png(fig, out / f"arrow_{YEAR}_Q{Q_START}_Q{Q_END}_plotly.png", width=2400, height=1600, scale=2)
 
 
 def plot_scatter(df, axes, out, suffix):
@@ -313,7 +321,7 @@ def plot_scatter(df, axes, out, suffix):
             hovertemplate="<b>%{text}</b><br>%{customdata[0]}<br>x=%{x:.4f}<br>y=%{y:.4f}<extra></extra>",
         ))
     fig.update_layout(template="plotly_white", xaxis_title=x_name, yaxis_title=y_name)
-    fig.write_html(out / f"scatter_{suffix}.html", include_plotlyjs="cdn")
+    save_plotly_png(fig, out / f"scatter_{suffix}.png", width=1600, height=1200, scale=2)
 
 
 def spectrum_bounds(df, axis):
@@ -365,7 +373,7 @@ def plot_spectrum(df, axes, out, suffix):
             xaxis={"title": "Projection Score", "range": [xmin, xmax]},
             yaxis={"tickmode": "array", "tickvals": list(range(len(SECTOR_ORDER))), "ticktext": list(reversed(SECTOR_ORDER))},
         )
-        pfig.write_html(out / f"spectrum_{suffix}_{axis}.html", include_plotlyjs="cdn")
+        save_plotly_png(pfig, out / f"spectrum_{suffix}_{axis}_plotly.png", width=1600, height=1200, scale=2)
 
 
 def save_scores(df, axes, out, suffix):
