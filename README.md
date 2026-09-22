@@ -28,9 +28,11 @@ python -m spacy download en_core_web_sm
 
 ## Data
 
-Earnings call transcripts and financial data were obtained from LSEG and are subject to licensing restrictions. These data are not publicly available.
+`data/earnings_call_json/` contains derived data extracted from CEO earnings call transcripts for 490 S&P 500 companies, including the text and embedding vectors of the CEO's prepared remarks section for each fiscal year/quarter.
 
-The file `data/axis_definition.csv` contains the reference texts used to construct the four semantic axes. `data/SP500.csv` contains the S&P 500 ticker list with GICS sector information.
+`data/axis_definition.csv` contains the reference texts used to construct the four semantic axes.
+
+`data/SP500.csv` contains the S&P 500 ticker list with GICS sector information.
 
 ---
 
